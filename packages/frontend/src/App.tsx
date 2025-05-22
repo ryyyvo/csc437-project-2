@@ -1,8 +1,13 @@
+import { Routes, Route } from "react-router";
+
 function App() {
     return (
-        <div>
-            <h1>My cool webpage</h1>
-        </div>
+        <Routes>
+            <Route path="/" element={<AllImages />} />
+            <Route path="/images/:id" element={<ImageDetails />} />
+            <Route path="/upload" element={<UploadPage />} />
+            <Route path="/login" element={<LoginPage />} />
+        </Routes>
     );
 }
 
