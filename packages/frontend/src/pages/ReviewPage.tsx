@@ -22,8 +22,6 @@ export default function ReviewPage() {
     setGameTitle("");
     setReviewContent("");
     setRating("5");
-    
-    alert("Review submitted successfully!");
   };
   
   return (
