@@ -11,7 +11,7 @@ export interface ReviewData {
 
 interface ReviewProps {
   review: ReviewData;
-  showGameName?: boolean; // Add prop to control display mode
+  showGameName?: boolean;
 }
 
 export default function Review({ review, showGameName = false }: ReviewProps) {
