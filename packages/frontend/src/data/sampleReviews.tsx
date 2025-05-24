@@ -4,7 +4,7 @@ export const baldursGate3Reviews: ReviewData[] = [
   {
     id: "bg3-review-001",
     gameName: "Baldur's Gate 3",
-    userName: "RPGMaster92",
+    userName: "User123",
     dateCreated: "2024-01-15",
     rating: 5,
     content: "Absolutely phenomenal game! The depth of character customization and storytelling is unmatched. Every choice feels meaningful and the companions are incredibly well-written. The turn-based combat is strategic and engaging. Larian Studios has created a masterpiece that sets a new standard for RPGs. 100+ hours in and still discovering new content!"

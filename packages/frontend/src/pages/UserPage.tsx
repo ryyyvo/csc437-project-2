@@ -1,7 +1,12 @@
 import Layout from "../components/Layout";
+import Review from "../components/Review";
+import { baldursGate3Reviews } from "../data/sampleReviews";
 
 export default function UserPage() {
   const username = "User123"; // This would come from authentication/params
+  
+  // Filter reviews for this user
+  const userReviews = baldursGate3Reviews.filter(review => review.userName === username);
   
   return (
     <Layout currentUser={username}>
@@ -9,18 +14,9 @@ export default function UserPage() {
       <div className="user-reviews">
         <h3>Recent Reviews</h3>
         <ul>
-          <li>
-            <a href="/game/1">Game Title 1</a>
-            <p>Review content for Game Title 1...</p>
-          </li>
-          <li>
-            <a href="/game/2">Game Title 2</a>
-            <p>Review content for Game Title 2...</p>
-          </li>
-          <li>
-            <a href="/game/3">Game Title 3</a>
-            <p>Review content for Game Title 3...</p>
-          </li>
+          {userReviews.map((review) => (
+            <Review key={review.id} review={review} />
+          ))}
         </ul>
       </div>
     </Layout>
