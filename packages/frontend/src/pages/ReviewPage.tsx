@@ -1,16 +1,29 @@
 import { useState } from "react";
 import Layout from "../components/Layout";
+import { useReviews } from "../hooks/useReviews";
 
 export default function ReviewPage() {
   const [gameTitle, setGameTitle] = useState("");
   const [reviewContent, setReviewContent] = useState("");
   const [rating, setRating] = useState("5");
   const currentUser = "User123"; // Would be from authentication
+  const { addReview } = useReviews();
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle review submission
-    console.log({ gameTitle, reviewContent, rating });
+    addReview({
+      gameName: gameTitle,
+      userName: currentUser,
+      rating: parseInt(rating),
+      content: reviewContent
+    });
+    
+    // Reset form
+    setGameTitle("");
+    setReviewContent("");
+    setRating("5");
+    
+    alert("Review submitted successfully!");
   };
   
   return (

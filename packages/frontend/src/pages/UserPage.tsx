@@ -1,12 +1,13 @@
 import Layout from "../components/Layout";
 import Review from "../components/Review";
-import { baldursGate3Reviews } from "../data/sampleReviews";
+import { useReviews } from "../hooks/useReviews";
 
 export default function UserPage() {
   const username = "User123"; // This would come from authentication/params
+  const { reviews } = useReviews();
   
   // Filter reviews for this user
-  const userReviews = baldursGate3Reviews.filter(review => review.userName === username);
+  const userReviews = reviews.filter(review => review.userName === username);
   
   return (
     <Layout currentUser={username}>
