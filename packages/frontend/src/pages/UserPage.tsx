@@ -5,10 +5,9 @@ import { useReviews } from "../hooks/useReviews";
 
 export default function UserPage() {
   const { username } = useParams<{ username: string }>();
-  const currentUser = "User123"; // This would come from authentication
+  const currentUser = "User123"; // use authentication later on
   const { reviews } = useReviews();
   
-  // Filter reviews for this user
   const userReviews = reviews.filter(review => review.userName === username);
   
   return (

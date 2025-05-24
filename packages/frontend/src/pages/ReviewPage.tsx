@@ -7,7 +7,7 @@ export default function ReviewPage() {
   const [gameTitle, setGameTitle] = useState("");
   const [reviewContent, setReviewContent] = useState("");
   const [rating, setRating] = useState("5");
-  const currentUser = "User123"; // Would be from authentication
+  const currentUser = "User123"; // use authentication later on
   const { addReview } = useReviews();
   const navigate = useNavigate();
   
@@ -19,8 +19,6 @@ export default function ReviewPage() {
       rating: parseInt(rating),
       content: reviewContent
     });
-    
-    // Navigate to user profile page after submitting
     navigate(`/user/${currentUser}`);
   };
   

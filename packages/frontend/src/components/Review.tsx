@@ -29,9 +29,8 @@ export default function Review({ review, showGameName = false }: ReviewProps) {
     return '★'.repeat(rating) + '☆'.repeat(5 - rating);
   };
 
-  // Use gameId if available, otherwise fallback to a default
+  // use gameId if available, otherwise fallback to a default
   const gameLink = review.gameId ? `/game/${review.gameId}` : "/game";
-  // Create user profile link
   const userLink = `/user/${review.userName}`;
 
   return (

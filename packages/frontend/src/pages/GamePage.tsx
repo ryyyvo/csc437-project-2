@@ -5,13 +5,12 @@ import { baldursGate3Reviews } from "../data/sampleReviews";
 
 export default function GamePage() {
   const { id } = useParams<{ id: string }>();
-  const currentUser = "User123"; // Would be from authentication
+  const currentUser = "User123";
   
-  // In a real app, you'd fetch reviews based on the game ID from params
+  // fetch reviews based on the game ID from params with backend later on
   const gameReviews = baldursGate3Reviews;
   const gameName = "Baldur's Gate 3";
   
-  // Calculate average rating
   const averageRating = gameReviews.length > 0 
     ? (gameReviews.reduce((sum, review) => sum + review.rating, 0) / gameReviews.length).toFixed(1)
     : "0";
