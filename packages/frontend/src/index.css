@@ -12,7 +12,6 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 header {
@@ -22,7 +21,6 @@ header {
     color: var(--color-header-text);
     background-color: var(--color-header-bg);
     padding: 1em;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 header nav {
@@ -66,7 +64,6 @@ a:hover {
     border: none;
     font-size: 1rem;
     cursor: pointer;
-    transition: all 0.2s ease;
     padding: 0;
     margin: 0;
     height: auto;
@@ -116,7 +113,6 @@ button {
     border: none;
     cursor: pointer;
     font-weight: bold;
-    transition: all 0.2s ease;
 }
 
 button:hover {
@@ -135,7 +131,6 @@ button.theme-toggle {
     border: none;
     font-size: 1rem;
     cursor: pointer;
-    transition: all 0.2s ease;
     padding: 0;
     margin: 0;
     height: auto;
