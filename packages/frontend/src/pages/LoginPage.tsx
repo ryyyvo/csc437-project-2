@@ -9,9 +9,8 @@ export default function LoginPage() {
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic
     console.log({ username, password });
-    navigate("/user");
+    navigate("/user/User123");
   };
   
   return (

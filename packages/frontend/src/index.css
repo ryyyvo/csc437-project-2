@@ -3,12 +3,12 @@
 * { 
     margin: 0; 
     padding: 0;
+    font-family: "JetBrains Mono", monospace;
 }
 
 body {
     background-color: var(--color-body-bg);
     color: var(--color-body-text); 
-    font-family: "JetBrains Mono", monospace;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -114,7 +114,6 @@ button {
     color: var(--color-main-text);
     background-color: var(--color-header-bg);
     border: none;
-    font-family: "JetBrains Mono", monospace;
     cursor: pointer;
     font-weight: bold;
     transition: all 0.2s ease;
@@ -236,7 +235,6 @@ select {
     color: var(--color-main-text);
     background-color: var(--color-header-bg);
     border: none;
-    font-family: "JetBrains Mono", monospace;
 }
 
 input::placeholder,
