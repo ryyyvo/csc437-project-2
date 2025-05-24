@@ -14,7 +14,7 @@ export const baldursGate3Reviews: ReviewData[] = [
     id: "bg3-review-002", 
     gameName: "Baldur's Gate 3",
     gameId: "1", 
-    userName: "CasualGamer88",
+    userName: "shadowheart_fan",
     dateCreated: "2024-02-03",
     rating: 4,
     content: "I like shadowheart"
@@ -23,7 +23,7 @@ export const baldursGate3Reviews: ReviewData[] = [
     id: "bg3-review-003",
     gameName: "Baldur's Gate 3", 
     gameId: "1", 
-    userName: "TabletopVeteran",
+    userName: "gale_lover",
     dateCreated: "2024-01-28",
     rating: 5,
     content: "I like this game"
