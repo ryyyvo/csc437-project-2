@@ -14,7 +14,7 @@ function App() {
       <ReviewsProvider>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/user" element={<UserPage />} />
+          <Route path="/user/:username" element={<UserPage />} />
           <Route path="/game/:id" element={<GamePage />} />
           <Route path="/review" element={<ReviewPage />} />
           <Route path="/login" element={<LoginPage />} />

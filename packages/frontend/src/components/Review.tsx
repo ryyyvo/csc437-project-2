@@ -7,7 +7,7 @@ export interface ReviewData {
   dateCreated: string;
   rating: number;
   content: string;
-  gameId?: string; // Add optional gameId field
+  gameId?: string;
 }
 
 interface ReviewProps {
@@ -31,6 +31,8 @@ export default function Review({ review, showGameName = false }: ReviewProps) {
 
   // Use gameId if available, otherwise fallback to a default
   const gameLink = review.gameId ? `/game/${review.gameId}` : "/game";
+  // Create user profile link
+  const userLink = `/user/${review.userName}`;
 
   return (
     <li className="review-item">
@@ -40,7 +42,7 @@ export default function Review({ review, showGameName = false }: ReviewProps) {
             {review.gameName}
           </Link>
         ) : (
-          <Link to="/user" className="review-author">
+          <Link to={userLink} className="review-author">
             Review by {review.userName}
           </Link>
         )}

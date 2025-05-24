@@ -18,7 +18,7 @@ export default function Layout({ children, currentUser }: LayoutProps) {
             <li>
               <Link 
                 style={{ color: "var(--color-secondary-text)" }} 
-                to={currentUser ? "/user" : "/login"}
+                to={currentUser ? `/user/${currentUser}` : "/login"}
               >
                 {currentUser || "Login"}
               </Link>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
 import { useReviews } from "../hooks/useReviews";
 
@@ -8,6 +9,7 @@ export default function ReviewPage() {
   const [rating, setRating] = useState("5");
   const currentUser = "User123"; // Would be from authentication
   const { addReview } = useReviews();
+  const navigate = useNavigate();
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,10 +20,8 @@ export default function ReviewPage() {
       content: reviewContent
     });
     
-    // Reset form
-    setGameTitle("");
-    setReviewContent("");
-    setRating("5");
+    // Navigate to user profile page after submitting
+    navigate(`/user/${currentUser}`);
   };
   
   return (
