@@ -7,3 +7,13 @@
     --color-main-text: #77addc;
     --color-secondary-text: #a3cf06;
 }
+
+[data-theme="light"] {
+    --color-header-bg: #e8f0fa;
+    --color-header-text: #2d5a8a;
+    --color-body-bg: #f5f8fc;
+    --color-body-text: #2d5a8a;
+    --color-main-bg: #f5f8fc;
+    --color-main-text: #2d5a8a;
+    --color-secondary-text: #7a9c04;
+}

@@ -1,0 +1,328 @@
+@import url('tokens.css');
+
+* { 
+    margin: 0; 
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-body-bg);
+    color: var(--color-body-text); 
+    font-family: "JetBrains Mono", monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--color-header-text);
+    background-color: var(--color-header-bg);
+    padding: 1em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header nav {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+}
+
+header h1 {
+    margin-bottom: 0.5em;
+}
+
+header ul {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0;
+    gap: 1em;
+    margin-left: 0;
+    align-items: center;
+}
+
+li {
+    list-style-type: none;
+}
+
+/* Links */
+a {
+    color: var(--color-secondary-text);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-secondary-text);
+    text-decoration: underline;
+}
+
+/* Theme toggle button - aligned with navbar text */
+.theme-toggle {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    margin: 0;
+    height: auto;
+    width: auto;
+    min-width: auto;
+    color: var(--color-secondary-text);
+    font-family: inherit;
+    font-weight: normal;
+    border-radius: 0;
+}
+
+.theme-toggle:hover {
+    background: transparent;
+    color: var(--color-secondary-text);
+    transform: scale(1.1);
+    text-decoration: underline;
+}
+
+.theme-toggle:active {
+    transform: scale(1.05);
+}
+
+/* Main content */
+main {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 1em;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
+}
+
+main h1, h2, h3 {
+    color: var(--color-main-text);
+    background-color: var(--color-main-bg);
+}
+
+button {
+    width: 90%;
+    max-width: 200px;
+    margin-top: 1.5em;
+    padding: 0.6em;
+    border-radius: 0.5em;
+    color: var(--color-main-text);
+    background-color: var(--color-header-bg);
+    border: none;
+    font-family: "JetBrains Mono", monospace;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background-color: var(--color-secondary-text);
+    color: var(--color-header-bg);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0px);
+}
+
+/* Override button styles for theme toggle */
+button.theme-toggle {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    margin: 0;
+    height: auto;
+    width: auto;
+    min-width: auto;
+    max-width: none;
+    color: var(--color-secondary-text);
+    font-family: inherit;
+    font-weight: normal;
+    border-radius: 0;
+    margin-top: 0;
+}
+
+button.theme-toggle:hover {
+    background: transparent;
+    color: var(--color-secondary-text);
+    transform: scale(1.1);
+    text-decoration: underline;
+}
+
+button.theme-toggle:active {
+    transform: scale(1.05);
+}
+
+.create_review {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+    background-color: var(--color-main-bg);
+    border-radius: 0.5em;
+}
+
+.create_review * {
+    margin-top: 1em;
+}
+
+/* User reviews styling */
+.user-reviews {
+    background-color: var(--color-main-bg);
+    padding: 2em;
+    border-radius: 0.5em;
+    margin-top: 2em;
+    width: 100%;
+    max-width: 800px;
+}
+
+.user-reviews h3 {
+    color: var(--color-secondary-text);
+    margin-bottom: 1em;
+    font-size: 1.5em;
+}
+
+.user-reviews ul {
+    list-style: none;
+    padding: 0;
+}
+
+.user-reviews li {
+    padding: 1em;
+    margin-bottom: 1em;
+    background-color: var(--color-header-bg);
+    border-radius: 0.5em;
+}
+
+.user-reviews li:last-child {
+    margin-bottom: 0;
+}
+
+.user-reviews a {
+    color: var(--color-secondary-text);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.user-reviews a:hover {
+    text-decoration: underline;
+}
+
+.user-reviews p {
+    color: var(--color-main-text);
+    margin-top: 0.5em;
+    line-height: 1.6;
+}
+
+/* Search field for mobile */
+input,
+textarea,
+select {
+    width: 90%;
+    max-width: 200px;
+    margin-top: 1em;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    color: var(--color-main-text);
+    background-color: var(--color-header-bg);
+    border: none;
+    font-family: "JetBrains Mono", monospace;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--color-main-text);
+    opacity: 0.7;
+}
+
+/* Desktop styles */
+@media (min-width: 769px) {
+    header {
+        flex-direction: row;
+        padding: 1em 0 1em 1.5em;
+        gap: 2em;
+    }
+    
+    header nav {
+        flex-direction: row;
+        align-items: center;
+        gap: 2em;
+    }
+    
+    header h1 {
+        max-width: 20vw;
+        margin-bottom: 0;
+    }
+    
+    header ul {
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 2em;
+        padding: 0.5em 2rem;
+        margin-left: auto;
+        align-items: center;
+    }
+    
+    main {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        padding: 2em;
+        justify-items: center;
+        text-align: center;
+        flex-grow: 1;
+    }
+
+    main h2 {
+        align-self: start;
+    }
+
+    .user-reviews {
+        align-self: center;
+    }
+
+    .user-reviews li {
+        margin: 1em 0;
+    }
+
+    input,
+    textarea,
+    select {
+        width: 80%;
+        min-width: 300px;
+        max-width: 500px;
+        padding: 0.75em 1em;
+        font-size: 1.1rem;
+    }
+    
+    button {
+        width: 80%;
+        min-width: 200px;
+        max-width: 500px;
+        padding: 0.75em 1em;
+        font-size: 1.1rem;
+    }
+
+    /* Override for theme toggle on desktop */
+    button.theme-toggle {
+        width: auto;
+        min-width: auto;
+        max-width: none;
+        padding: 0;
+        font-size: 1rem;
+    }
+
+    textarea {
+        min-height: 150px;
+    }
+}

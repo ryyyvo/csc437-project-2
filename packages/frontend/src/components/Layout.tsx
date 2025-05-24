@@ -1,5 +1,6 @@
 import { Link } from "react-router";
-import "../styles.css";
+import ThemeToggle from './ThemeToggle';
+import "../index.css";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -21,6 +22,9 @@ export default function Layout({ children, currentUser }: LayoutProps) {
               >
                 {currentUser || "Login"}
               </Link>
+            </li>
+            <li>
+              <ThemeToggle />
             </li>
           </ul>
         </nav>
