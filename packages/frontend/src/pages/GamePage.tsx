@@ -1,11 +1,13 @@
+import { useParams } from "react-router";
 import Layout from "../components/Layout";
 import Review from "../components/Review";
 import { baldursGate3Reviews } from "../data/sampleReviews";
 
 export default function GamePage() {
+  const { id } = useParams<{ id: string }>();
   const currentUser = "User123"; // Would be from authentication
   
-  // In a real app, you'd fetch reviews based on the game ID
+  // In a real app, you'd fetch reviews based on the game ID from params
   const gameReviews = baldursGate3Reviews;
   const gameName = "Baldur's Gate 3";
   
@@ -17,6 +19,7 @@ export default function GamePage() {
   return (
     <Layout currentUser={currentUser}>
       <h2>{gameName}</h2>
+      <p>Game ID: {id}</p>
       <div className="user-reviews">
         <h3>Average Rating: {averageRating}/5 stars ({gameReviews.length} reviews)</h3>
         <ul>

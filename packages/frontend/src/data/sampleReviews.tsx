@@ -4,6 +4,7 @@ export const baldursGate3Reviews: ReviewData[] = [
   {
     id: "bg3-review-001",
     gameName: "Baldur's Gate 3",
+    gameId: "1", // Add gameId
     userName: "User123",
     dateCreated: "2024-01-15",
     rating: 5,
@@ -12,6 +13,7 @@ export const baldursGate3Reviews: ReviewData[] = [
   {
     id: "bg3-review-002", 
     gameName: "Baldur's Gate 3",
+    gameId: "1", // Add gameId
     userName: "CasualGamer88",
     dateCreated: "2024-02-03",
     rating: 4,
@@ -20,6 +22,7 @@ export const baldursGate3Reviews: ReviewData[] = [
   {
     id: "bg3-review-003",
     gameName: "Baldur's Gate 3", 
+    gameId: "1", // Add gameId
     userName: "TabletopVeteran",
     dateCreated: "2024-01-28",
     rating: 5,
