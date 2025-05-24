@@ -11,9 +11,10 @@ export interface ReviewData {
 
 interface ReviewProps {
   review: ReviewData;
+  showGameName?: boolean; // Add prop to control display mode
 }
 
-export default function Review({ review }: ReviewProps) {
+export default function Review({ review, showGameName = false }: ReviewProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -30,9 +31,15 @@ export default function Review({ review }: ReviewProps) {
   return (
     <li className="review-item">
       <div className="review-header">
-        <Link to="/user" className="review-author">
-          Review by {review.userName}
-        </Link>
+        {showGameName ? (
+          <Link to="/game" className="review-game">
+            {review.gameName}
+          </Link>
+        ) : (
+          <Link to="/user" className="review-author">
+            Review by {review.userName}
+          </Link>
+        )}
         <div className="review-meta">
           <span className="review-rating" aria-label={`${review.rating} out of 5 stars`}>
             {renderStars(review.rating)} ({review.rating}/5)

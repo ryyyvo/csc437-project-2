@@ -15,7 +15,7 @@ export default function UserPage() {
         <h3>Recent Reviews</h3>
         <ul>
           {userReviews.map((review) => (
-            <Review key={review.id} review={review} />
+            <Review key={review.id} review={review} showGameName={true} />
           ))}
         </ul>
       </div>
