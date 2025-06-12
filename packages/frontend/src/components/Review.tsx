@@ -4,9 +4,10 @@ import type { ReviewData } from '../services/api';
 interface ReviewProps {
   review: ReviewData;
   showGameName?: boolean;
+  showAuthor?: boolean;
 }
 
-export default function Review({ review, showGameName = false }: ReviewProps) {
+export default function Review({ review, showGameName = false, showAuthor = true }: ReviewProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -26,15 +27,18 @@ export default function Review({ review, showGameName = false }: ReviewProps) {
   return (
     <li className="review-item">
       <div className="review-header">
-        {showGameName ? (
-          <Link to={gameLink} className="review-game">
-            {review.gameName}
-          </Link>
-        ) : (
-          <Link to={userLink} className="review-author">
-            Review by {review.username}
-          </Link>
-        )}
+        <div className="review-titles">
+          {showGameName && (
+            <Link to={gameLink} className="review-game">
+              {review.gameName}
+            </Link>
+          )}
+          {showAuthor && (
+            <Link to={userLink} className="review-author">
+              {showGameName ? `Review by ${review.username}` : `Review by ${review.username}`}
+            </Link>
+          )}
+        </div>
         <div className="review-meta">
           <span className="review-rating" aria-label={`${review.rating} out of 5 stars`}>
             {renderStars(review.rating)} ({review.rating}/5)

@@ -136,7 +136,12 @@ function RecentReviews() {
       {recentReviews.length > 0 ? (
         <div className="review-list">
           {recentReviews.map((review) => (
-            <Review key={review._id} review={review} showGameName={true} />
+            <Review 
+              key={review._id} 
+              review={review} 
+              showGameName={true} 
+              showAuthor={true} 
+            />
           ))}
         </div>
       ) : (

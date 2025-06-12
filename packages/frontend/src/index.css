@@ -259,15 +259,16 @@ textarea::placeholder {
 }
 
 .review-author {
-    color: var(--color-secondary-text);
+    color: var(--color-main-text);
     text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1em;
+    font-size: 0.95em;
+    opacity: 0.9;
 }
 
-.review-author:hover,
-.review-author:focus {
+.review-author:hover {
     text-decoration: underline;
+    color: var(--color-main-text);
+    opacity: 1;
 }
 
 .review-meta {
@@ -292,6 +293,24 @@ textarea::placeholder {
     color: var(--color-main-text);
     line-height: 1.6;
     margin: 0;
+}
+
+/* Review titles container for showing both game and author */
+.review-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.review-game {
+  color: var(--color-secondary-text);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.review-game:hover {
+  text-decoration: underline;
 }
 
 /* Game search dropdown */
@@ -448,12 +467,6 @@ textarea::placeholder {
   text-decoration: underline;
 }
 
-.recent-review-item .review-date {
-  color: var(--color-main-text);
-  opacity: 0.8;
-  font-style: italic;
-}
-
 /* Mobile responsiveness for recent reviews */
 @media (max-width: 768px) {
   .recent-review-item .review-header {
@@ -562,4 +575,14 @@ textarea::placeholder {
     .review-item {
         padding: 2em;
     }
+
+    .review-titles {
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+  }
+  
+  .review-author {
+    font-size: 0.9em;
+  }
 }
