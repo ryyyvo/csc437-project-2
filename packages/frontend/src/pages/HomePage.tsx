@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import Layout from "../components/Layout";
-import { useGameSearch, useReviews } from "../hooks/useQueryApi";
+import { useGameSearch, useReviews, usePrefetchGame, usePrefetchUser } from "../hooks/useQueryApi";
 import Review from "../components/Review";
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
+  
+  const prefetchGame = usePrefetchGame();
+  // const prefetchUser = usePrefetchUser();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -36,6 +39,11 @@ export default function HomePage() {
   const handleResultClick = () => {
     setShowResults(false);
     setSearchQuery("");
+  };
+
+  // Prefetch game data on hover
+  const handleGameHover = (gameId: string) => {
+    prefetchGame(gameId);
   };
 
   useEffect(() => {
@@ -79,6 +87,7 @@ export default function HomePage() {
                   to={`/game/${game._id}`}
                   className="search-result-item"
                   onClick={handleResultClick}
+                  onMouseEnter={() => handleGameHover(game._id!)}
                 >
                   <div>
                     <h3>{game.title}</h3>
@@ -103,6 +112,17 @@ export default function HomePage() {
 
 function RecentReviews() {
   const { data: reviews = [], isLoading, error } = useReviews();
+  const prefetchUser = usePrefetchUser();
+  const prefetchGame = usePrefetchGame();
+
+  // Prefetch user and game data on hover
+  const handleUserHover = (username: string) => {
+    prefetchUser(username);
+  };
+
+  const handleGameHover = (gameId: string) => {
+    prefetchGame(gameId);
+  };
 
   if (isLoading) {
     return (
@@ -117,12 +137,18 @@ function RecentReviews() {
     return (
       <div className="recent-reviews">
         <h3>Recent Reviews</h3>
-        <p>Error loading reviews</p>
+        <div style={{ color: 'red', textAlign: 'center', padding: '2em' }}>
+          <h4>Error loading reviews</h4>
+          <p>{error.message}</p>
+          <button onClick={() => window.location.reload()}>
+            Try Again
+          </button>
+        </div>
       </div>
     );
   }
 
-  const recentReviews = reviews.slice(0, 5); // show only 5 most recent
+  const recentReviews = reviews.slice(0, 5);
 
   return (
     <div className="recent-reviews">
@@ -130,12 +156,19 @@ function RecentReviews() {
       {recentReviews.length > 0 ? (
         <div className="review-list">
           {recentReviews.map((review) => (
-            <Review 
-              key={review._id} 
-              review={review} 
-              showGameName={true} 
-              showAuthor={true} 
-            />
+            <div
+              key={review._id}
+              onMouseEnter={() => {
+                handleUserHover(review.username);
+                handleGameHover(review.gameId);
+              }}
+            >
+              <Review 
+                review={review} 
+                showGameName={true} 
+                showAuthor={true} 
+              />
+            </div>
           ))}
         </div>
       ) : (

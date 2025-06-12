@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useLogin, useRegister } from '../hooks/useQueryApi';
 
 interface User {
   id: string;
@@ -12,6 +14,8 @@ interface AuthContextType {
   register: (username: string, password: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
+  loginMutation: ReturnType<typeof useLogin>;
+  registerMutation: ReturnType<typeof useRegister>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,6 +24,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  
+  const queryClient = useQueryClient();
+  const loginMutation = useLogin();
+  const registerMutation = useRegister();
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -33,43 +41,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = async (username: string, password: string) => {
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Login failed');
+    try {
+      const data = await loginMutation.mutateAsync({ username, password });
+      setToken(data.token);
+      setUser(data.user);
+      
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+    } catch (error) {
+      throw error;
     }
-
-    const data = await response.json();
-    setToken(data.token);
-    setUser(data.user);
-    
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.user));
   };
 
   const register = async (username: string, password: string) => {
-    const response = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Registration failed');
+    try {
+      const data = await registerMutation.mutateAsync({ username, password });
+      setToken(data.token);
+      setUser(data.user);
+      
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+    } catch (error) {
+      throw error;
     }
-
-    const data = await response.json();
-    setToken(data.token);
-    setUser(data.user);
-    
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.user));
   };
 
   const logout = () => {
@@ -77,10 +71,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    
+    // Clear all React Query cache on logout
+    queryClient.clear();
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, register, logout, isLoading }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      token, 
+      login, 
+      register, 
+      logout, 
+      isLoading,
+      loginMutation,
+      registerMutation
+    }}>
       {children}
     </AuthContext.Provider>
   );

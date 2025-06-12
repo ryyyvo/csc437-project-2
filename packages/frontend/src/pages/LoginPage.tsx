@@ -6,23 +6,17 @@ import Layout from "../components/Layout";
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, loginMutation } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setIsLoading(true);
 
     try {
       await login(username, password);
       navigate("/");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
-    } finally {
-      setIsLoading(false);
+      // Error is handled by the mutation
     }
   };
 
@@ -30,7 +24,13 @@ export default function LoginPage() {
     <Layout>
       <h2>Login</h2>
       <form className="create_review" onSubmit={handleSubmit}>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {loginMutation.error && (
+          <p style={{ color: "red" }}>
+            {loginMutation.error instanceof Error 
+              ? loginMutation.error.message 
+              : "Login failed"}
+          </p>
+        )}
 
         <label htmlFor="username">Username:</label>
         <input
@@ -41,6 +41,7 @@ export default function LoginPage() {
           required
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          disabled={loginMutation.isPending}
         />
 
         <label htmlFor="password">Password:</label>
@@ -52,10 +53,11 @@ export default function LoginPage() {
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={loginMutation.isPending}
         />
 
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Logging in..." : "Login"}
+        <button type="submit" disabled={loginMutation.isPending}>
+          {loginMutation.isPending ? "Logging in..." : "Login"}
         </button>
 
         <p>

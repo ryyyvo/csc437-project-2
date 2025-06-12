@@ -7,35 +7,33 @@ export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const { register } = useAuth();
+  const [validationError, setValidationError] = useState('');
+  const { register, registerMutation } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setValidationError('');
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setValidationError('Passwords do not match');
       return;
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setValidationError('Password must be at least 6 characters');
       return;
     }
 
-    setIsLoading(true);
     try {
       await register(username, password);
       navigate('/');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed');
-    } finally {
-      setIsLoading(false);
+      // Error is handled by the mutation
     }
   };
+
+  const error = validationError || (registerMutation.error instanceof Error ? registerMutation.error.message : null);
 
   return (
     <Layout>
@@ -52,6 +50,7 @@ export default function RegisterPage() {
           minLength={2}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          disabled={registerMutation.isPending}
         />
 
         <label htmlFor="password">Password:</label>
@@ -63,6 +62,7 @@ export default function RegisterPage() {
           minLength={6}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={registerMutation.isPending}
         />
 
         <label htmlFor="confirmPassword">Confirm Password:</label>
@@ -73,10 +73,11 @@ export default function RegisterPage() {
           required
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          disabled={registerMutation.isPending}
         />
 
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Registering...' : 'Register'}
+        <button type="submit" disabled={registerMutation.isPending}>
+          {registerMutation.isPending ? 'Registering...' : 'Register'}
         </button>
         
         <p>
