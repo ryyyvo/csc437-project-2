@@ -68,7 +68,6 @@ router.post('/', authenticateToken, (async (req: AuthRequest, res: Response) => 
   try {
     const { gameId, gameName, rating, content } = req.body;
     
-    // Get user info from authenticated token
     if (!req.user) {
       return res.status(401).json({ error: 'User not authenticated' });
     }
@@ -78,9 +77,9 @@ router.post('/', authenticateToken, (async (req: AuthRequest, res: Response) => 
     }
     
     const review = new Review({
-      userId: req.user.userId, // From JWT token
+      userId: req.user.userId, // from JWT token
       gameId,
-      username: req.user.username, // From JWT token
+      username: req.user.username, // from JWT token
       gameName,
       rating,
       content

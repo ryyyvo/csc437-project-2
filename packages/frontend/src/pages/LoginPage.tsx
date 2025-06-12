@@ -16,7 +16,6 @@ export default function LoginPage() {
       await login(username, password);
       navigate("/");
     } catch (err) {
-      // Error is handled by the mutation
     }
   };
 

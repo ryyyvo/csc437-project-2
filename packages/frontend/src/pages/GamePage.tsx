@@ -47,7 +47,7 @@ export default function GamePage() {
       <div className="recent-reviews">
         <h3>Average Rating: {averageRating}/5 stars ({gameReviews.length} reviews)</h3>
         {gameReviews.length > 0 ? (
-          <div className="review-list"> {/* Added wrapper */}
+          <div className="review-list">
             {gameReviews.map((review) => (
               <Review key={review._id} review={review} showAuthor={true} />
             ))}

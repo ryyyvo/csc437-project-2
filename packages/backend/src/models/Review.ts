@@ -1,7 +1,6 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 import type { Review as ReviewInterface } from '../shared/schemas';
 
-// Create a document interface that uses ObjectId for userId and gameId
 export interface ReviewDocument extends Omit<ReviewInterface, '_id' | 'userId' | 'gameId'>, Document {
   userId: Types.ObjectId;
   gameId: Types.ObjectId;

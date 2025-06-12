@@ -13,7 +13,7 @@ export const queryKeys = {
   user: (username: string) => ['users', username] as const,
 } as const;
 
-// Auth mutations
+// auth mutations
 export const useLogin = () => {
   const queryClient = useQueryClient();
   
@@ -21,7 +21,7 @@ export const useLogin = () => {
     mutationFn: ({ username, password }: { username: string; password: string }) =>
       api.login(username, password),
     onSuccess: (_data) => {
-      // Invalidate user-related queries after login
+      // invalidate user-related queries after login
       queryClient.invalidateQueries({ queryKey: queryKeys.users });
       queryClient.invalidateQueries({ queryKey: queryKeys.reviews });
     },
@@ -35,13 +35,13 @@ export const useRegister = () => {
     mutationFn: ({ username, password }: { username: string; password: string }) =>
       api.register(username, password),
     onSuccess: (data) => {
-      // Set user data in cache after registration
+      // set user data in cache after registration
       queryClient.setQueryData(queryKeys.user(data.user.username), data.user);
     },
   });
 };
 
-// User queries
+// user queries
 export const useUser = (username: string) => {
   return useQuery({
     queryKey: queryKeys.user(username),
@@ -51,7 +51,6 @@ export const useUser = (username: string) => {
   });
 };
 
-// Enhanced reviews queries with better error handling
 export const useReviews = () => {
   return useQuery({
     queryKey: queryKeys.reviews,
@@ -88,14 +87,12 @@ export const useCreateReview = () => {
   return useMutation({
     mutationFn: api.createReview,
     onMutate: async (newReview) => {
-      // Optimistic update - show review immediately
       await queryClient.cancelQueries({ queryKey: queryKeys.reviews });
       await queryClient.cancelQueries({ queryKey: queryKeys.reviewsByGame(newReview.gameId) });
       
       const previousReviews = queryClient.getQueryData(queryKeys.reviews);
       const previousGameReviews = queryClient.getQueryData(queryKeys.reviewsByGame(newReview.gameId));
       
-      // Optimistically update the cache
       const optimisticReview: ReviewData = {
         _id: `temp-${Date.now()}`,
         ...newReview,
@@ -113,7 +110,6 @@ export const useCreateReview = () => {
       return { previousReviews, previousGameReviews, optimisticReview };
     },
     onError: (_err, newReview, context) => {
-      // Rollback optimistic update on error
       if (context?.previousReviews) {
         queryClient.setQueryData(queryKeys.reviews, context.previousReviews);
       }
@@ -122,7 +118,6 @@ export const useCreateReview = () => {
       }
     },
     onSuccess: (newReview) => {
-      // Invalidate and refetch to get the real data
       queryClient.invalidateQueries({ queryKey: queryKeys.reviews });
       queryClient.invalidateQueries({ queryKey: queryKeys.reviewsByGame(newReview.gameId) });
       queryClient.invalidateQueries({ queryKey: queryKeys.reviewsByUser(newReview.username) });
@@ -130,12 +125,11 @@ export const useCreateReview = () => {
   });
 };
 
-// Enhanced games queries
 export const useGames = () => {
   return useQuery({
     queryKey: queryKeys.games,
     queryFn: api.getGames,
-    staleTime: 10 * 60 * 1000, // 10 minutes - games don't change often
+    staleTime: 10 * 60 * 1000, // 10 minutes
     retry: 3,
   });
 };
@@ -166,19 +160,16 @@ export const useCreateGame = () => {
   return useMutation({
     mutationFn: api.createGame,
     onSuccess: (newGame) => {
-      // Update games list cache
       queryClient.invalidateQueries({ queryKey: queryKeys.games });
       queryClient.setQueryData(queryKeys.games, (old: Game[] | undefined) => {
         return old ? [...old, newGame] : [newGame];
       });
       
-      // Set individual game cache
       queryClient.setQueryData(queryKeys.game(newGame._id!), newGame);
     },
   });
 };
 
-// Prefetch utilities
 export const usePrefetchGame = () => {
   const queryClient = useQueryClient();
   

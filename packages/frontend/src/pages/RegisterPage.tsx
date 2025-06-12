@@ -29,7 +29,6 @@ export default function RegisterPage() {
       await register(username, password);
       navigate('/');
     } catch (err) {
-      // Error is handled by the mutation
     }
   };
 
