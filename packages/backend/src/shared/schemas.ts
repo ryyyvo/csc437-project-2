@@ -1,22 +1,22 @@
 export interface User {
-  _id?: string; // MongoDB ObjectId
+  _id?: string; 
   username: string;
-  password: string; // This should be hashed in practice
+  password: string; 
 }
 
 export interface Game {
-  _id?: string; // MongoDB ObjectId
+  _id?: string; 
   title: string;
 }
 
 export interface Review {
-  _id?: string; // MongoDB ObjectId
-  userId: string; // Reference to User._id
-  gameId: string; // Reference to Game._id
-  username: string; // Denormalized for easy display
-  gameName: string; // Denormalized for easy display
+  _id?: string; 
+  userId: string; 
+  gameId: string; 
+  username: string; 
+  gameName: string; 
   rating: number; // 1-5 stars
   content: string;
-  dateCreated: string; // ISO date string
-  dateModified?: string; // For edit functionality
+  dateCreated: string; 
+  dateModified?: string; 
 }

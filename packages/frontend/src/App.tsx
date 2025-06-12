@@ -9,7 +9,6 @@ import LoginPage from "./pages/LoginPage";
 import "./index.css";
 import { ValidRoutes } from "../../backend/src/shared/ValidRoutes";
 
-// Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

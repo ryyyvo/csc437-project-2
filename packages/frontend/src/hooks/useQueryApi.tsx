@@ -51,7 +51,6 @@ export const useCreateReview = () => {
   });
 };
 
-// Games Hooks
 export const useGames = () => {
   return useQuery({
     queryKey: queryKeys.games,
