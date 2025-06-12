@@ -14,8 +14,10 @@ export default function ReviewPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     addReview({
+      userId: "user-1",
+      gameId: "game-1", // for now, hardcode to Baldur's Gate 3
+      username: currentUser,
       gameName: gameTitle,
-      userName: currentUser,
       rating: parseInt(rating),
       content: reviewContent
     });

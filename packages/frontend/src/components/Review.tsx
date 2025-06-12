@@ -1,14 +1,5 @@
 import { Link } from "react-router";
-
-export interface ReviewData {
-  id: string;
-  gameName: string;
-  userName: string;
-  dateCreated: string;
-  rating: number;
-  content: string;
-  gameId?: string;
-}
+import type { ReviewData } from '../services/api';
 
 interface ReviewProps {
   review: ReviewData;
@@ -29,9 +20,8 @@ export default function Review({ review, showGameName = false }: ReviewProps) {
     return '★'.repeat(rating) + '☆'.repeat(5 - rating);
   };
 
-  // use gameId if available, otherwise fallback to a default
-  const gameLink = review.gameId ? `/game/${review.gameId}` : "/game";
-  const userLink = `/user/${review.userName}`;
+  const gameLink = `/game/${review.gameId}`;
+  const userLink = `/user/${review.username}`;
 
   return (
     <li className="review-item">
@@ -42,7 +32,7 @@ export default function Review({ review, showGameName = false }: ReviewProps) {
           </Link>
         ) : (
           <Link to={userLink} className="review-author">
-            Review by {review.userName}
+            Review by {review.username}
           </Link>
         )}
         <div className="review-meta">
