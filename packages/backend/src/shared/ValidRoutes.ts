@@ -3,5 +3,6 @@ export const ValidRoutes = {
     LOGIN: "/login",
     USER: "/user/:username",
     GAME: "/game/:id",
-    REVIEW: "/review"
+    REVIEW: "/review",
+    REGISTER: "/register"
 }

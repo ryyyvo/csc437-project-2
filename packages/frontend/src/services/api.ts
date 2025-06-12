@@ -14,7 +14,38 @@ export interface ReviewData {
   dateModified?: string;
 }
 
+const getAuthHeaders = (): Record<string, string> => {
+  const token = localStorage.getItem('token');
+  const headers: Record<string, string> = {};
+  
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  
+  return headers;
+};
+
 export const api = {
+  async login(username: string, password: string) {
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+    if (!response.ok) throw new Error('Login failed');
+    return response.json();
+  },
+
+  async register(username: string, password: string) {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+    if (!response.ok) throw new Error('Registration failed');
+    return response.json();
+  },
+
   // reviews
   async getReviews(): Promise<ReviewData[]> {
     const response = await fetch(`${API_BASE_URL}/reviews`);
@@ -39,6 +70,7 @@ export const api = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...getAuthHeaders(),
       },
       body: JSON.stringify(review),
     });
@@ -71,10 +103,18 @@ export const api = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...getAuthHeaders(),
       },
       body: JSON.stringify({ title }),
     });
     if (!response.ok) throw new Error('Failed to create game');
+    return response.json();
+  },
+
+  // users
+  async getUser(username: string) {
+    const response = await fetch(`${API_BASE_URL}/users/${username}`);
+    if (!response.ok) throw new Error('Failed to fetch user');
     return response.json();
   },
 };
