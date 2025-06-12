@@ -36,11 +36,13 @@ export default function ReviewPage() {
 
     try {
       await createReviewMutation.mutateAsync({
+        userId: user.id,
         gameId: selectedGame._id!,
+        username: user.username,
         gameName: selectedGame.title,
         rating: parseInt(rating),
         content: reviewContent
-      } as any);
+      });
       
       navigate(`/user/${user.username}`);
     } catch (error) {

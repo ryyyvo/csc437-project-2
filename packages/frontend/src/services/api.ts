@@ -74,7 +74,10 @@ export const api = {
       },
       body: JSON.stringify(review),
     });
-    if (!response.ok) throw new Error('Failed to create review');
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || 'Failed to create review');
+    }
     return response.json();
   },
 

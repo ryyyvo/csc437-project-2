@@ -47,7 +47,7 @@ li {
     list-style-type: none;
 }
 
-/* Links */
+/* links */
 a {
     color: var(--color-secondary-text);
     text-decoration: none;
@@ -58,7 +58,7 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Theme toggle button - aligned with navbar text */
+/* theme toggle button */
 .theme-toggle {
     background: transparent;
     border: none;
@@ -86,7 +86,7 @@ a:hover {
     transform: scale(1.05);
 }
 
-/* Main content */
+/* main content */
 main {
     display: grid;
     grid-template-columns: 1fr;
@@ -125,7 +125,7 @@ button:active {
     transform: translateY(0px);
 }
 
-/* Override button styles for theme toggle */
+/* override button styles for theme toggle */
 button.theme-toggle {
     background: transparent;
     border: none;
@@ -169,7 +169,7 @@ button.theme-toggle:active {
     margin-top: 1em;
 }
 
-/* User reviews styling */
+/* user reviews styling */
 .user-reviews {
     background-color: var(--color-main-bg);
     padding: 2em;
@@ -218,7 +218,7 @@ button.theme-toggle:active {
     line-height: 1.6;
 }
 
-/* Search field for mobile */
+/* search field for mobile */
 input,
 textarea,
 select {
@@ -238,7 +238,7 @@ textarea::placeholder {
     opacity: 0.7;
 }
 
-/* Review component styles */
+/* review component styles */
 .review-item {
     padding: 1.5em;
     margin-bottom: 1em;
@@ -295,7 +295,7 @@ textarea::placeholder {
     margin: 0;
 }
 
-/* Review titles container for showing both game and author */
+/* review titles container for showing both game and author */
 .review-titles {
   display: flex;
   flex-direction: column;
@@ -313,7 +313,7 @@ textarea::placeholder {
   text-decoration: underline;
 }
 
-/* Game search dropdown */
+/* game search dropdown */
 .game-dropdown {
   position: absolute;
   top: 100%;
@@ -344,7 +344,7 @@ textarea::placeholder {
   color: var(--color-secondary-text);
 }
 
-/* Search results dropdown */
+/* search results dropdown */
 .search-results {
   position: absolute;
   top: 100%;
@@ -387,7 +387,7 @@ textarea::placeholder {
   color: inherit;
 }
 
-/* Recent reviews section */
+/* recent reviews section */
 .recent-reviews {
   background-color: var(--color-main-bg);
   padding: 2em;
@@ -467,7 +467,7 @@ textarea::placeholder {
   text-decoration: underline;
 }
 
-/* Mobile responsiveness for recent reviews */
+/* mobile responsiveness for recent reviews */
 @media (max-width: 768px) {
   .recent-review-item .review-header {
     flex-direction: column;
@@ -480,7 +480,7 @@ textarea::placeholder {
   }
 }
 
-/* Desktop styles */
+/* desktop styles */
 @media (min-width: 769px) {
     header {
         flex-direction: row;
@@ -548,7 +548,7 @@ textarea::placeholder {
         font-size: 1.1rem;
     }
 
-    /* Override for theme toggle on desktop */
+    /* override for theme toggle on desktop */
     button.theme-toggle {
         width: auto;
         min-width: auto;

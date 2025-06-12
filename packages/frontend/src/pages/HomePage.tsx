@@ -10,7 +10,6 @@ export default function HomePage() {
   const [showResults, setShowResults] = useState(false);
   
   const prefetchGame = usePrefetchGame();
-  // const prefetchUser = usePrefetchUser();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -41,7 +40,6 @@ export default function HomePage() {
     setSearchQuery("");
   };
 
-  // Prefetch game data on hover
   const handleGameHover = (gameId: string) => {
     prefetchGame(gameId);
   };
@@ -115,7 +113,6 @@ function RecentReviews() {
   const prefetchUser = usePrefetchUser();
   const prefetchGame = usePrefetchGame();
 
-  // Prefetch user and game data on hover
   const handleUserHover = (username: string) => {
     prefetchUser(username);
   };
