@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from "./components/ThemeContext";
-import { ReviewsProvider } from "./context/ReviewsContext";
 import HomePage from "./pages/HomePage";
 import UserPage from "./pages/UserPage";
 import GamePage from "./pages/GamePage";
@@ -9,10 +9,20 @@ import LoginPage from "./pages/LoginPage";
 import "./index.css";
 import { ValidRoutes } from "../../backend/src/shared/ValidRoutes";
 
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes
+    },
+  },
+});
+
 function App() {
   return (
-    <ThemeProvider>
-      <ReviewsProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
         <Routes>
           <Route path={ValidRoutes.HOME} element={<HomePage />} />
           <Route path={ValidRoutes.USER} element={<UserPage />} />
@@ -20,8 +30,8 @@ function App() {
           <Route path={ValidRoutes.REVIEW} element={<ReviewPage />} />
           <Route path={ValidRoutes.LOGIN} element={<LoginPage />} />
         </Routes>
-      </ReviewsProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 

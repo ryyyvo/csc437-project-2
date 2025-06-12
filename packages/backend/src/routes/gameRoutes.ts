@@ -3,12 +3,12 @@ import { sampleGames } from '../data/sampleData';
 
 const router = Router();
 
-// Get all games
+// get all games
 router.get('/', (req: Request, res: Response) => {
     res.json(sampleGames);
 });
 
-// Search games by title
+// search games by title
 router.get('/search/:query', (req: Request, res: Response) => {
     const { query } = req.params;
     const matchingGames = sampleGames.filter(game => 
@@ -17,7 +17,7 @@ router.get('/search/:query', (req: Request, res: Response) => {
     res.json(matchingGames);
 });
 
-// Get specific game
+// get specific game
 router.get('/:gameId', (req: Request, res: Response) => {
     const { gameId } = req.params;
     const game = sampleGames.find(game => game._id === gameId);
@@ -28,20 +28,21 @@ router.get('/:gameId', (req: Request, res: Response) => {
     }
 });
 
-// Create new game
+// create new game
 router.post('/', (req: Request, res: Response) => {
     const { title } = req.body;
     
-    // Check if game already exists
+    // check if game already exists
     const existingGame = sampleGames.find(game => 
         game.title.toLowerCase() === title.toLowerCase()
     );
     
     if (existingGame) {
-        return res.json(existingGame);
+        res.json(existingGame);
+        return;
     }
     
-    // Create new game
+    // create new game
     const newGame = {
         _id: `game-${Date.now()}`,
         title: title.trim()

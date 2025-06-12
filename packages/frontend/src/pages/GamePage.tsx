@@ -1,40 +1,26 @@
 import { useParams } from "react-router";
-import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import Review from "../components/Review";
-import { api, type ReviewData } from "../services/api";
-import type { Game } from "../../../backend/src/shared/schemas";
+import { useGame, useReviewsByGame } from "../hooks/useQueryApi";
 
 export default function GamePage() {
   const { id } = useParams<{ id: string }>();
   const currentUser = "User123";
-  const [gameReviews, setGameReviews] = useState<ReviewData[]>([]);
-  const [game, setGame] = useState<Game | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  
-  useEffect(() => {
-    const fetchGameData = async () => {
-      if (!id) return;
-      
-      try {
-        setIsLoading(true);
-        const [gameData, reviewsData] = await Promise.all([
-          api.getGame(id),
-          api.getReviewsByGame(id)
-        ]);
-        setGame(gameData);
-        setGameReviews(reviewsData);
-      } catch (err) {
-        setError('Failed to load game data');
-        console.error('Error fetching game data:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
 
-    fetchGameData();
-  }, [id]);
+  const { 
+    data: game, 
+    isLoading: isLoadingGame, 
+    error: gameError 
+  } = useGame(id || '');
+
+  const { 
+    data: gameReviews = [], 
+    isLoading: isLoadingReviews, 
+    error: reviewsError 
+  } = useReviewsByGame(id || '');
+
+  const isLoading = isLoadingGame || isLoadingReviews;
+  const error = gameError || reviewsError;
 
   if (isLoading) {
     return (
@@ -47,7 +33,7 @@ export default function GamePage() {
   if (error || !game) {
     return (
       <Layout currentUser={currentUser}>
-        <p>Error: {error || 'Game not found'}</p>
+        <p>Error: {error?.message || 'Game not found'}</p>
       </Layout>
     );
   }

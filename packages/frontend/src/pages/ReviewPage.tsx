@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
 import GameSearch from "../components/GameSearch";
-import { useReviews } from "../hooks/useReviews";
+import { useCreateReview } from "../hooks/useQueryApi";
 import type { Game } from "../../../backend/src/shared/schemas";
 
 export default function ReviewPage() {
@@ -11,14 +11,15 @@ export default function ReviewPage() {
   const [reviewContent, setReviewContent] = useState("");
   const [rating, setRating] = useState("5");
   const currentUser = "User123";
-  const { addReview } = useReviews();
   const navigate = useNavigate();
+  
+  const createReviewMutation = useCreateReview();
   
   const handleGameSelect = (game: Game) => {
     setSelectedGame(game);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!selectedGame) {
@@ -26,15 +27,21 @@ export default function ReviewPage() {
       return;
     }
 
-    addReview({
-      userId: "user-1",
-      gameId: selectedGame._id!,
-      username: currentUser,
-      gameName: selectedGame.title,
-      rating: parseInt(rating),
-      content: reviewContent
-    });
-    navigate(`/user/${currentUser}`);
+    try {
+      await createReviewMutation.mutateAsync({
+        userId: "user-1",
+        gameId: selectedGame._id!,
+        username: currentUser,
+        gameName: selectedGame.title,
+        rating: parseInt(rating),
+        content: reviewContent
+      });
+      
+      navigate(`/user/${currentUser}`);
+    } catch (error) {
+      console.error('Failed to create review:', error);
+      alert('Failed to create review. Please try again.');
+    }
   };
   
   return (
@@ -74,7 +81,12 @@ export default function ReviewPage() {
           <option value="5">5</option>
         </select>
 
-        <button type="submit">Submit Review</button>
+        <button 
+          type="submit" 
+          disabled={createReviewMutation.isPending}
+        >
+          {createReviewMutation.isPending ? 'Submitting...' : 'Submit Review'}
+        </button>
       </form>
     </Layout>
   );

@@ -1,34 +1,17 @@
 import { useParams } from "react-router";
-import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import Review from "../components/Review";
-import { api, type ReviewData } from "../services/api";
+import { useReviewsByUser } from "../hooks/useQueryApi";
 
 export default function UserPage() {
   const { username } = useParams<{ username: string }>();
   const currentUser = "User123";
-  const [userReviews, setUserReviews] = useState<ReviewData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  
-  useEffect(() => {
-    const fetchUserReviews = async () => {
-      if (!username) return;
-      
-      try {
-        setIsLoading(true);
-        const reviews = await api.getReviewsByUser(username);
-        setUserReviews(reviews);
-      } catch (err) {
-        setError('Failed to load user reviews');
-        console.error('Error fetching user reviews:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
 
-    fetchUserReviews();
-  }, [username]);
+  const { 
+    data: userReviews = [], 
+    isLoading, 
+    error 
+  } = useReviewsByUser(username || '');
 
   if (isLoading) {
     return (
@@ -41,7 +24,7 @@ export default function UserPage() {
   if (error) {
     return (
       <Layout currentUser={currentUser}>
-        <p>Error: {error}</p>
+        <p>Error: {error.message}</p>
       </Layout>
     );
   }

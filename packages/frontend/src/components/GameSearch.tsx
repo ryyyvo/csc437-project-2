@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { api } from '../services/api';
+import { useGameSearch, useCreateGame } from '../hooks/useQueryApi';
 import type { Game } from '../../../backend/src/shared/schemas';
 
 interface GameSearchProps {
@@ -9,35 +9,25 @@ interface GameSearchProps {
 }
 
 export default function GameSearch({ onGameSelect, value, onChange }: GameSearchProps) {
-  const [searchResults, setSearchResults] = useState<Game[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const searchGames = async () => {
-      if (value.length < 2) {
-        setSearchResults([]);
-        setShowDropdown(false);
-        return;
-      }
+    const timer = setTimeout(() => {
+      setDebouncedQuery(value);
+    }, 300);
 
-      setIsLoading(true);
-      try {
-        const results = await api.searchGames(value);
-        setSearchResults(results);
-        setShowDropdown(true);
-      } catch (error) {
-        console.error('Error searching games:', error);
-        setSearchResults([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    const timeoutId = setTimeout(searchGames, 300);
-    return () => clearTimeout(timeoutId);
+    return () => clearTimeout(timer);
   }, [value]);
+
+  const { data: searchResults = [], isLoading } = useGameSearch(debouncedQuery);
+  const createGameMutation = useCreateGame();
+
+  // show dropdown when have a query and results
+  useEffect(() => {
+    setShowDropdown(debouncedQuery.length >= 2);
+  }, [debouncedQuery, searchResults]);
 
   // close dropdown when clicking outside
   useEffect(() => {
@@ -59,7 +49,7 @@ export default function GameSearch({ onGameSelect, value, onChange }: GameSearch
 
   const handleCreateNewGame = async () => {
     try {
-      const newGame = await api.createGame(value);
+      const newGame = await createGameMutation.mutateAsync(value);
       handleGameSelect(newGame);
     } catch (error) {
       console.error('Error creating game:', error);
@@ -76,7 +66,7 @@ export default function GameSearch({ onGameSelect, value, onChange }: GameSearch
         required
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        onFocus={() => value.length >= 2 && setShowDropdown(true)}
+        onFocus={() => debouncedQuery.length >= 2 && setShowDropdown(true)}
       />
       
       {showDropdown && (
@@ -94,12 +84,16 @@ export default function GameSearch({ onGameSelect, value, onChange }: GameSearch
                   {game.title}
                 </div>
               ))}
-              {searchResults.length === 0 && value.length >= 2 && (
+              {searchResults.length === 0 && debouncedQuery.length >= 2 && (
                 <div
                   className="dropdown-item create-new"
                   onClick={handleCreateNewGame}
+                  style={{ 
+                    opacity: createGameMutation.isPending ? 0.6 : 1,
+                    pointerEvents: createGameMutation.isPending ? 'none' : 'auto'
+                  }}
                 >
-                  Create "{value}" as new game
+                  {createGameMutation.isPending ? 'Creating...' : `Create "${value}" as new game`}
                 </div>
               )}
             </>
