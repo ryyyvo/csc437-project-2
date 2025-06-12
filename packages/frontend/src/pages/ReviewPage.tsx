@@ -1,23 +1,36 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
+import GameSearch from "../components/GameSearch";
 import { useReviews } from "../hooks/useReviews";
+import type { Game } from "../../../backend/src/shared/schemas";
 
 export default function ReviewPage() {
   const [gameTitle, setGameTitle] = useState("");
+  const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const [reviewContent, setReviewContent] = useState("");
   const [rating, setRating] = useState("5");
-  const currentUser = "User123"; // use authentication later on
+  const currentUser = "User123";
   const { addReview } = useReviews();
   const navigate = useNavigate();
   
+  const handleGameSelect = (game: Game) => {
+    setSelectedGame(game);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!selectedGame) {
+      alert("Please select a game first");
+      return;
+    }
+
     addReview({
       userId: "user-1",
-      gameId: "game-1", // for now, hardcode to Baldur's Gate 3
+      gameId: selectedGame._id!,
       username: currentUser,
-      gameName: gameTitle,
+      gameName: selectedGame.title,
       rating: parseInt(rating),
       content: reviewContent
     });
@@ -29,14 +42,10 @@ export default function ReviewPage() {
       <h2>Write Your Review</h2>
       <form className="create_review" onSubmit={handleSubmit}>
         <label htmlFor="game_title">Game Title:</label>
-        <input 
-          type="text" 
-          id="game_title" 
-          name="game_title" 
-          placeholder="Search for a game..." 
-          required
+        <GameSearch
           value={gameTitle}
-          onChange={(e) => setGameTitle(e.target.value)}
+          onChange={setGameTitle}
+          onGameSelect={handleGameSelect}
         />
 
         <label htmlFor="review_content">Review Content:</label>

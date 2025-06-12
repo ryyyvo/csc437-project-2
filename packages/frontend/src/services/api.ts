@@ -58,4 +58,23 @@ export const api = {
     if (!response.ok) throw new Error('Failed to fetch game');
     return response.json();
   },
+
+  async searchGames(query: string): Promise<Game[]> {
+    if (!query.trim()) return [];
+    const response = await fetch(`${API_BASE_URL}/games/search/${encodeURIComponent(query)}`);
+    if (!response.ok) throw new Error('Failed to search games');
+    return response.json();
+  },
+
+  async createGame(title: string): Promise<Game> {
+    const response = await fetch(`${API_BASE_URL}/games`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title }),
+    });
+    if (!response.ok) throw new Error('Failed to create game');
+    return response.json();
+  },
 };

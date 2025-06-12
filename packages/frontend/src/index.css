@@ -294,6 +294,37 @@ textarea::placeholder {
     margin: 0;
 }
 
+/* Game search dropdown */
+.game-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--color-header-bg);
+  border: 1px solid var(--color-secondary-text);
+  border-radius: 0.5em;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  padding: 0.75em 1em;
+  cursor: pointer;
+  color: var(--color-main-text);
+  border-bottom: 1px solid var(--color-main-text);
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item.create-new {
+  font-style: italic;
+  color: var(--color-secondary-text);
+}
+
 /* Desktop styles */
 @media (min-width: 769px) {
     header {
