@@ -9,7 +9,6 @@ export default function HomePage() {
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
 
-  // Debounce the search query to avoid too many API calls
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(searchQuery);
@@ -20,7 +19,6 @@ export default function HomePage() {
 
   const { data: searchResults = [], isLoading } = useGameSearch(debouncedQuery);
 
-  // Show results when we have a query
   useEffect(() => {
     setShowResults(debouncedQuery.length >= 2);
   }, [debouncedQuery]);
@@ -40,7 +38,6 @@ export default function HomePage() {
     setSearchQuery("");
   };
 
-  // Close search results when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element;
@@ -99,14 +96,11 @@ export default function HomePage() {
           </div>
         )}
       </div>
-      
-      {/* Show recent reviews when not searching */}
       {!showResults && <RecentReviews />}
     </Layout>
   );
 }
 
-// Component to show recent reviews on the homepage
 function RecentReviews() {
   const { data: reviews = [], isLoading, error } = useReviews();
 
@@ -128,7 +122,7 @@ function RecentReviews() {
     );
   }
 
-  const recentReviews = reviews.slice(0, 5); // Show only 5 most recent
+  const recentReviews = reviews.slice(0, 5); // show only 5 most recent
 
   return (
     <div className="recent-reviews">

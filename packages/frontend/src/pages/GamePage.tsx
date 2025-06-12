@@ -5,7 +5,6 @@ import { useGame, useReviewsByGame } from "../hooks/useQueryApi";
 
 export default function GamePage() {
   const { id } = useParams<{ id: string }>();
-  const currentUser = "User123";
 
   const { 
     data: game, 
@@ -24,7 +23,7 @@ export default function GamePage() {
 
   if (isLoading) {
     return (
-      <Layout currentUser={currentUser}>
+      <Layout>
         <p>Loading...</p>
       </Layout>
     );
@@ -32,7 +31,7 @@ export default function GamePage() {
 
   if (error || !game) {
     return (
-      <Layout currentUser={currentUser}>
+      <Layout>
         <p>Error: {error?.message || 'Game not found'}</p>
       </Layout>
     );
@@ -43,7 +42,7 @@ export default function GamePage() {
     : "0";
 
   return (
-    <Layout currentUser={currentUser}>
+    <Layout>
       <h2>{game.title}</h2>
       <div className="user-reviews">
         <h3>Average Rating: {averageRating}/5 stars ({gameReviews.length} reviews)</h3>

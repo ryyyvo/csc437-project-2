@@ -5,7 +5,6 @@ import { useReviewsByUser } from "../hooks/useQueryApi";
 
 export default function UserPage() {
   const { username } = useParams<{ username: string }>();
-  const currentUser = "User123";
 
   const { 
     data: userReviews = [], 
@@ -15,7 +14,7 @@ export default function UserPage() {
 
   if (isLoading) {
     return (
-      <Layout currentUser={currentUser}>
+      <Layout>
         <p>Loading...</p>
       </Layout>
     );
@@ -23,22 +22,31 @@ export default function UserPage() {
 
   if (error) {
     return (
-      <Layout currentUser={currentUser}>
+      <Layout>
         <p>Error: {error.message}</p>
       </Layout>
     );
   }
   
   return (
-    <Layout currentUser={currentUser}>
+    <Layout>
       <h2>{username}</h2>
-      <div className="user-reviews">
-        <h3>Recent Reviews</h3>
-        <ul>
-          {userReviews.map((review) => (
-            <Review key={review._id} review={review} showGameName={true} />
-          ))}
-        </ul>
+      <div className="recent-reviews">
+        <h3>Reviews by {username}</h3>
+        {userReviews.length > 0 ? (
+          <div className="review-list">
+            {userReviews.map((review) => (
+              <Review 
+                key={review._id} 
+                review={review} 
+                showGameName={true} 
+                showAuthor={false}
+              />
+            ))}
+          </div>
+        ) : (
+          <p>No reviews yet.</p>
+        )}
       </div>
     </Layout>
   );
