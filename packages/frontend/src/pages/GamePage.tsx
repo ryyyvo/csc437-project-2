@@ -45,7 +45,6 @@ export default function GamePage() {
   return (
     <Layout currentUser={currentUser}>
       <h2>{game.title}</h2>
-      <p>Game ID: {id}</p>
       <div className="user-reviews">
         <h3>Average Rating: {averageRating}/5 stars ({gameReviews.length} reviews)</h3>
         <ul>
