@@ -50,7 +50,6 @@ const reviewSchema = new Schema<ReviewDocument>({
   timestamps: true
 });
 
-// Compound index for efficient queries
 reviewSchema.index({ gameId: 1, dateCreated: -1 });
 reviewSchema.index({ username: 1, dateCreated: -1 });
 

@@ -16,7 +16,6 @@ const gameSchema = new Schema<GameDocument>({
   timestamps: true
 });
 
-// Index for text search
 gameSchema.index({ title: 'text' });
 
 export const Game = mongoose.model<GameDocument>('Game', gameSchema);

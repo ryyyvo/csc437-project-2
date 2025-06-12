@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 const router = Router();
 
-// Get all games
+// get all games
 router.get('/', async (req: Request, res: Response) => {
   try {
     const games = await Game.find({});
@@ -15,7 +15,7 @@ router.get('/', async (req: Request, res: Response) => {
   }
 });
 
-// Search games by title
+// search games by title
 router.get('/search/:query', async (req: Request, res: Response) => {
   try {
     const { query } = req.params;
@@ -29,7 +29,7 @@ router.get('/search/:query', async (req: Request, res: Response) => {
   }
 });
 
-// Get specific game
+// get specific game
 router.get('/:gameId', (async (req: Request, res: Response) => {
   try {
     const { gameId } = req.params;
@@ -51,12 +51,12 @@ router.get('/:gameId', (async (req: Request, res: Response) => {
   }
 }) as RequestHandler);
 
-// Create new game
+// create new game
 router.post('/', (async (req: Request, res: Response) => {
   try {
     const { title } = req.body;
     
-    // Check if game already exists (case-insensitive)
+    // check if game already exists
     const existingGame = await Game.findOne({
       title: { $regex: `^${title.trim()}$`, $options: 'i' }
     });
@@ -65,7 +65,7 @@ router.post('/', (async (req: Request, res: Response) => {
       return res.json(existingGame);
     }
     
-    // Create new game
+    // create new game
     const game = new Game({ title: title.trim() });
     const savedGame = await game.save();
     
@@ -74,11 +74,11 @@ router.post('/', (async (req: Request, res: Response) => {
     console.error('Error creating game:', error);
     
     if (error instanceof Error) {
-      const mongoError = error as any; // Type assertion for MongoDB error
+      const mongoError = error as any;
       
       if (mongoError.name === 'ValidationError') {
         res.status(400).json({ error: 'Invalid game data', details: mongoError.message });
-      } else if (mongoError.code === 11000) { // Duplicate key error
+      } else if (mongoError.code === 11000) { // duplicate key error
         res.status(409).json({ error: 'Game already exists' });
       } else {
         res.status(500).json({ error: 'Failed to create game' });

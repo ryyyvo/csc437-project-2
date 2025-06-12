@@ -18,7 +18,7 @@ const userSchema = new Schema<UserDocument>({
     minlength: 6
   }
 }, {
-  timestamps: true // Adds createdAt and updatedAt
+  timestamps: true
 });
 
 export const User = mongoose.model<UserDocument>('User', userSchema);

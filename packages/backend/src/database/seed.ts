@@ -7,12 +7,12 @@ export async function seedDatabase() {
   try {
     await connectToDatabase();
     
-    // Clear existing data
+    // clear existing data
     await User.deleteMany({});
     await Game.deleteMany({});
     await Review.deleteMany({});
 
-    // Insert users
+    // insert users
     const users = await User.create([
       { username: "User123", password: "hashed_password_1" },
       { username: "shadowheart_fan", password: "hashed_password_2" },
@@ -20,13 +20,13 @@ export async function seedDatabase() {
     ]);
     console.log('Created users:', users.map(u => u._id));
 
-    // Insert games
+    // insert games
     const games = await Game.create([
       { title: "Baldur's Gate 3" }
     ]);
     console.log('Created games:', games.map(g => g._id));
 
-    // Insert reviews
+    // insert reviews
     const reviews = await Review.create([
       {
         userId: users[0]._id,
