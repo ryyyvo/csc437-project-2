@@ -2,6 +2,7 @@ import { connectToDatabase } from './connection';
 import { User } from '../models/User';
 import { Game } from '../models/Game';
 import { Review } from '../models/Review';
+import bcrypt from 'bcrypt';
 
 export async function seedDatabase() {
   try {
@@ -12,11 +13,21 @@ export async function seedDatabase() {
     await Game.deleteMany({});
     await Review.deleteMany({});
 
-    // insert users
+    const saltRounds = 12;
+    
     const users = await User.create([
-      { username: "User123", password: "hashed_password_1" },
-      { username: "shadowheart_fan", password: "hashed_password_2" },
-      { username: "gale_lover", password: "hashed_password_3" }
+      { 
+        username: "User123", 
+        password: await bcrypt.hash("password123", saltRounds)
+      },
+      { 
+        username: "shadowheart_fan", 
+        password: await bcrypt.hash("password123", saltRounds)
+      },
+      { 
+        username: "gale_lover", 
+        password: await bcrypt.hash("password123", saltRounds)
+      }
     ]);
     console.log('Created users:', users.map(u => u._id));
 

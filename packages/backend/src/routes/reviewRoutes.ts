@@ -1,6 +1,7 @@
 import { Router, Request, Response, RequestHandler } from 'express';
 import { Review } from '../models/Review';
 import mongoose from 'mongoose';
+import { authenticateToken, AuthRequest } from '../middleware/auth';
 
 const router = Router();
 
@@ -63,19 +64,23 @@ router.get('/user/:username', (async (req: Request, res: Response) => {
 }) as RequestHandler);
 
 // create new review
-router.post('/', (async (req: Request, res: Response) => {
+router.post('/', authenticateToken, (async (req: AuthRequest, res: Response) => {
   try {
-    const { userId, gameId, username, gameName, rating, content } = req.body;
+    const { gameId, gameName, rating, content } = req.body;
     
-    // Add validation
-    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(gameId)) {
-      return res.status(400).json({ error: 'Invalid user ID or game ID' });
+    // Get user info from authenticated token
+    if (!req.user) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+    
+    if (!mongoose.Types.ObjectId.isValid(gameId)) {
+      return res.status(400).json({ error: 'Invalid game ID' });
     }
     
     const review = new Review({
-      userId,
+      userId: req.user.userId, // From JWT token
       gameId,
-      username,
+      username: req.user.username, // From JWT token
       gameName,
       rating,
       content
@@ -92,12 +97,7 @@ router.post('/', (async (req: Request, res: Response) => {
     res.status(201).json(serializedReview);
   } catch (error) {
     console.error('Error creating review:', error);
-    
-    if (error instanceof Error && error.name === 'ValidationError') {
-      res.status(400).json({ error: 'Invalid review data', details: error.message });
-    } else {
-      res.status(500).json({ error: 'Failed to create review' });
-    }
+    res.status(500).json({ error: 'Failed to create review' });
   }
 }) as RequestHandler);
 
